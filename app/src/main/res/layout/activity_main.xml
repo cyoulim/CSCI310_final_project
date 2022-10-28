@@ -6,45 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/LinearLayout01"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:text="HousingInfo"-->
-<!--            android:textSize="25sp" />-->
-<!--        <View-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="3dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@color/black" />-->
-<!--        <View-->
-<!--            android:layout_width="10dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:background="@color/black" />-->
-<!--    </LinearLayout>-->
-<!--    <LinearLayout-->
-<!--        android:id="@+id/left_sidebar"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_weight="1"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:gravity="center">-->
-
-<!--   <Button-->
-<!--    android:text="Button"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content" />-->
-
-<!--    </LinearLayout>-->
 <LinearLayout
     app:layout_constraintTop_toBottomOf="@id/content"
     android:id="@+id/content"
@@ -62,11 +23,11 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/button01"
-            android:text="Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/button01"
+        android:text="Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/button02"
         android:text="Post"
@@ -82,11 +43,22 @@
         android:text="Match"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/logout_Button"
-        android:text="logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:orientation="vertical" >
+            <Button
+                android:id="@+id/logout_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|bottom"
+                android:text="logout" />
+        </LinearLayout>
+
+
   </LinearLayout>
 
     <LinearLayout
@@ -99,19 +71,94 @@
         android:orientation="vertical"
         android:background="@color/teal_200"
         android:gravity="center">
-<!--        <Button-->
-<!--            android:layout_gravity=""-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:id="@+id/logout_button"-->
-<!--            android:text="Logout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            app:layout_constraintHorizontal_weight="0"-->
-<!--            android:layout_height="wrap_content" />-->
+            <TextView android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Name:" />
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <TextView android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Bio:" />
+            <EditText
+                android:id="@+id/editTextBio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <TextView android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Deadline:" />
+            <EditText
+                android:id="@+id/editTextDeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <TextView android:id="@+id/text4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Address:" />
+            <EditText
+                android:id="@+id/editTextAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <TextView android:id="@+id/text5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Rent:" />
+            <EditText
+                android:id="@+id/editTextRent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+            <TextView android:id="@+id/text6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Utilities:" />
+            <EditText
+                android:id="@+id/editTextUtilities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
+
+            <Button
+                android:id="@+id/buttonPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="POST"
+                android:onClick="Invitation Posted!"
+                app:layout_constraintEnd_toEndOf="parent" />
 
     </LinearLayout>
-
-
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
