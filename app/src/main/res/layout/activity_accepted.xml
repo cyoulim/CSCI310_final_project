@@ -72,6 +72,10 @@
             android:background="@color/teal_200"
             android:gravity="center">
 
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
             <LinearLayout
                 app:layout_constraintStart_toStartOf="@id/linearlayout02"
                 android:layout_alignParentRight="true"
@@ -187,6 +191,7 @@
                         android:text="Reject" />
                 </LinearLayout>
             </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
     </LinearLayout>
