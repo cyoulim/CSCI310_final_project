@@ -1,26 +1,18 @@
 package com.example.csci310_final_project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -35,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void init(){
+        Button post_btn = (Button)findViewById(R.id.button03);
+        post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchPagefromPost();
+            }
+        });
         Button button= (Button)findViewById(R.id.buttonPost);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -67,22 +66,6 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
-    }
-
-    public class User {
-
-        public String username;
-        public String email;
-
-        public User() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public User(String username, String email) {
-            this.username = username;
-            this.email = email;
-        }
-
     }
 
     public class Invitation {
@@ -118,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
             reject.add(userId);
         }
     }
-
-
-
+    public void switchPagefromPost(){
+        Intent intent = new Intent(this, Accepted.class);
+        startActivity(intent);
+    }
 
 }
