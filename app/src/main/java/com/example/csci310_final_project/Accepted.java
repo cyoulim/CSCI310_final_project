@@ -43,8 +43,39 @@ public class Accepted extends AppCompatActivity {
                                 Object username_ = document.getData().get("username");
                                 if(username_ == null) continue;
                                 String username = username_.toString();
-                                //Log.d("test", username);
-                                //username_field.setText(username);
+                                username_field.setText(username);
+
+                                TextView bio_field = (TextView) layout.findViewById(R.id.bio);
+                                Object bio_ = document.getData().get("bio");
+                                if(bio_ == null) continue;
+                                String bio = bio_.toString();
+                                bio_field.setText(bio);
+
+                                TextView deadline_field = (TextView) layout.findViewById(R.id.deadline);
+                                Object deadline_ = document.getData().get("deadline");
+                                if(deadline_ == null) continue;
+                                String deadline = deadline_.toString();
+                                deadline_field.setText(deadline);
+
+                                TextView rent_field = (TextView) layout.findViewById(R.id.rent);
+                                Object rent_ = document.getData().get("rent");
+                                if(rent_ == null) continue;
+                                String rent = rent_.toString();
+                                rent_field.setText(rent);
+
+                                TextView address_field = (TextView) layout.findViewById(R.id.address);
+                                Object address_ = document.getData().get("address");
+                                if(address_ == null) continue;
+                                String address = address_.toString();
+                                address_field.setText(address);
+
+                                TextView utilities_field = (TextView) layout.findViewById(R.id.utilities);
+                                Object utilities_ = document.getData().get("utilities");
+                                if(utilities_ == null) continue;
+                                String utilities = utilities_.toString();
+                                utilities_field.setText(utilities);
+
+
                                 LinearLayout container = (LinearLayout) findViewById(R.id.linearlayout02);
                                 container.addView(layout);
                                 //Log.d("test", document.getId() + " => " + document.getData().get("username"));

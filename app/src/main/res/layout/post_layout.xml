@@ -16,7 +16,7 @@
         android:ems="15"
         android:text="Name:" />
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,7 +29,7 @@
         android:ems="15"
         android:text="Bio:" />
     <EditText
-        android:id="@+id/editTextBio"
+        android:id="@+id/bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -42,7 +42,7 @@
         android:ems="15"
         android:text="Deadline:" />
     <EditText
-        android:id="@+id/editTextDeadline"
+        android:id="@+id/deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -55,7 +55,7 @@
         android:ems="15"
         android:text="Address:" />
     <EditText
-        android:id="@+id/editTextAddress"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -68,7 +68,7 @@
         android:ems="15"
         android:text="Rent:" />
     <EditText
-        android:id="@+id/editTextRent"
+        android:id="@+id/rent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -81,7 +81,7 @@
         android:ems="15"
         android:text="Utilities:" />
     <EditText
-        android:id="@+id/editTextUtilities"
+        android:id="@+id/utilities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
