@@ -70,7 +70,6 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:orientation="vertical"
-            android:background="@color/teal_200"
             android:gravity="center">
 
 
