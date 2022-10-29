@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -21,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Accepted extends AppCompatActivity {
+    int myUserId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,15 @@ public class Accepted extends AppCompatActivity {
                                 String utilities = utilities_.toString();
                                 utilities_field.setText(utilities);
 
+                                Button btn_accept = (Button) layout.findViewById(R.id.buttonAccept);
+                                btn_accept.setOnClickListener(new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View view) {
+                                        String id = document.getData().get("id").toString();
+                                        DocumentReference washingtonRef = db.collection("invitation").document(id);
+                                        washingtonRef.update("accept", FieldValue.arrayUnion(myUserId));
+                                    }
+                                });
 
                                 LinearLayout container = (LinearLayout) findViewById(R.id.linearlayout02);
                                 container.addView(layout);

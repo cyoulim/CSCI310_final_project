@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 String u = u_.getText().toString();
                 EditText rent_ = findViewById(R.id.rent);
                 String rent = rent_.getText().toString();
-                Invitation invite = new Invitation(username, bio, ddl, address, u, rent);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("invitation")
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 int counter = task.getResult().size();
+                                Invitation invite = new Invitation(counter, username, bio, ddl, address, u, rent);
                                 CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("invitation");
                                 collectionReference.document(String.valueOf(counter)).set(invite);
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class Invitation {
-
+        public int id;
         public String username;
         public String bio;
         public String deadline;
@@ -83,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public Invitation(String username, String bio, String deadline,
+        public Invitation(int id, String username, String bio, String deadline,
                          String address, String utilities, String rent) {
+            this.id = id;
             this.accept = new ArrayList<>();
             this.reject = new ArrayList<>();
             this.username = username;
