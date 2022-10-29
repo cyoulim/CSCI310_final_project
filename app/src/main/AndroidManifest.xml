@@ -25,6 +25,9 @@
         <activity android:name=".Accepted"
             android:label="CS310_final_project">
         </activity>
+        <activity android:name=".MatchActivity"
+            android:label="CS310_final_project">
+        </activity>
     </application>
 
 </manifest>

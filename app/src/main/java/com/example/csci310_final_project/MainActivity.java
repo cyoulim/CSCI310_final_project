@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 switchPagefromPost();
             }
         });
+        Button match_btn = (Button)findViewById(R.id.button04);
+        match_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToMatch(); }
+        });
         Button button= (Button)findViewById(R.id.buttonPost);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -104,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void switchPagefromPost(){
         Intent intent = new Intent(this, Accepted.class);
+        startActivity(intent);
+    }
+
+    public void switchToMatch(){
+        Intent intent = new Intent(this, MatchActivity.class);
         startActivity(intent);
     }
 
