@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,74 +8,78 @@
     tools:context=".Accepted">
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/content"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:baselineAligned="false"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:id="@+id/linearlayout01"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="0dp"
+            android:layout_width="31dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/button01"
-                android:text="Profile"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Profile" />
+
             <Button
                 android:id="@+id/button02"
-                android:text="Post"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Post" />
+
             <Button
                 android:id="@+id/button03"
-                android:text="Accept"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Accept" />
+
             <Button
                 android:id="@+id/button04"
-                android:text="Match"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Match" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dip"-->
-<!--                android:layout_weight="1"-->
-<!--                android:gravity="center|bottom"-->
-<!--                android:orientation="vertical" >-->
-                <Button
-                    android:id="@+id/logout_Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#AE4D8B"
-                    android:text="logout" />
-<!--                    android:gravity="center|bottom"-->
-<!--            </LinearLayout>-->
-
-
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0dip"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:gravity="center|bottom"-->
+            <!--                android:orientation="vertical" >-->
+            <Button
+                android:id="@+id/logout_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#AE4D8B"
+                android:text="logout" />
+            <!--                    android:gravity="center|bottom"-->
+            <!--            </LinearLayout>-->
         </LinearLayout>
 
-        <LinearLayout
-            app:layout_constraintStart_toStartOf="@id/linearlayout02"
-            android:layout_alignParentRight="true"
-            android:id="@+id/linearlayout02"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:gravity="center">
+        <ScrollView
+            android:layout_width="301dp"
+            android:layout_height="match_parent">
 
-
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearlayout02"
+                android:layout_width="match_parent"
+                android:layout_height="709dp"
+                android:layout_alignParentRight="true"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@id/linearlayout02"></LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

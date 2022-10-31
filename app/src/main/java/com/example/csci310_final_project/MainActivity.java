@@ -27,18 +27,32 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void init(){
-        Button post_btn = (Button)findViewById(R.id.button03);
+        Button profile_btn = (Button)findViewById(R.id.button01);
+        profile_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToProfile(); }
+        });
+        Button post_btn = (Button)findViewById(R.id.button02);
         post_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                switchPagefromPost();
-            }
+            public void onClick(View view) { switchToPost(); }
+        });
+        Button accept_btn = (Button)findViewById(R.id.button03);
+        accept_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToAccept(); }
         });
         Button match_btn = (Button)findViewById(R.id.button04);
         match_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { switchToMatch(); }
         });
+        Button logout_btn = (Button)findViewById(R.id.logout_Button);
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToLogin(); }
+        });
+
         Button button= (Button)findViewById(R.id.buttonPost);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -113,13 +127,29 @@ public class MainActivity extends AppCompatActivity {
             reject.add(userId);
         }
     }
-    public void switchPagefromPost(){
+
+    private void switchToProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToPost() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToAccept() {
         Intent intent = new Intent(this, Accepted.class);
         startActivity(intent);
     }
 
-    public void switchToMatch(){
+    private void switchToMatch() {
         Intent intent = new Intent(this, MatchActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

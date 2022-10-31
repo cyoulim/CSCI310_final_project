@@ -47,7 +47,7 @@
                 android:drawablePadding="6dp"
                 android:padding="4dp"/>
             <Button
-                android:id="@+id/buttonPost"
+                android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
@@ -59,6 +59,7 @@
 
 
         <Button
+            android:id="@+id/buttonSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"

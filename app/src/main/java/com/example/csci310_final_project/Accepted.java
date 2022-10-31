@@ -32,6 +32,32 @@ public class Accepted extends AppCompatActivity {
         init();
     }
     private void init(){
+        Button profile_btn = (Button)findViewById(R.id.button01);
+        profile_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToProfile(); }
+        });
+        Button post_btn = (Button)findViewById(R.id.button02);
+        post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToPost(); }
+        });
+        Button accept_btn = (Button)findViewById(R.id.button03);
+        accept_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToAccept(); }
+        });
+        Button match_btn = (Button)findViewById(R.id.button04);
+        match_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToMatch(); }
+        });
+        Button logout_btn = (Button)findViewById(R.id.logout_Button);
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToLogin(); }
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("invitation")
                 .get()
@@ -98,5 +124,30 @@ public class Accepted extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void switchToProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToPost() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToAccept() {
+        Intent intent = new Intent(this, Accepted.class);
+        startActivity(intent);
+    }
+
+    private void switchToMatch() {
+        Intent intent = new Intent(this, MatchActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

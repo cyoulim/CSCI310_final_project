@@ -119,9 +119,8 @@ public class MatchActivity extends AppCompatActivity {
     }
 
     private void switchToProfile() {
-        // TODO: create a profile page
-        // Intent intent = new Intent(this, ProfileActivity.class);
-        // startActivity(intent);
+         Intent intent = new Intent(this, ProfileActivity.class);
+         startActivity(intent);
     }
 
     private void switchToPost() {
@@ -140,8 +139,7 @@ public class MatchActivity extends AppCompatActivity {
     }
 
     private void switchToLogin() {
-        // TODO: create a login/logout page
-        // Intent intent = new Intent(this, LoginActivity.class);
-        // startActivity(intent);
+         Intent intent = new Intent(this, LoginActivity.class);
+         startActivity(intent);
     }
 }
