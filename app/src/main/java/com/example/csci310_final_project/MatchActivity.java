@@ -1,13 +1,17 @@
 package com.example.csci310_final_project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -15,10 +19,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MatchActivity extends AppCompatActivity {
-    int myUserId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +31,35 @@ public class MatchActivity extends AppCompatActivity {
         init();
     }
     private void init(){
+        Button profile_btn = (Button)findViewById(R.id.button01);
+        profile_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToProfile(); }
+        });
+        Button post_btn = (Button)findViewById(R.id.button02);
+        post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToPost(); }
+        });
+        Button accept_btn = (Button)findViewById(R.id.button03);
+        accept_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToAccept(); }
+        });
+        Button match_btn = (Button)findViewById(R.id.button04);
+        match_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToMatch(); }
+        });
+        Button logout_btn = (Button)findViewById(R.id.logout_Button);
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { switchToLogin(); }
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String userName = "Winnie"; //TODO: get userName of current user
+        String userName = "Winnie"; //TODO: change to userId of current user
         db.collection("invitation")
                 .whereEqualTo("username", userName)
                 .get()
@@ -39,34 +69,74 @@ public class MatchActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 // Log.d("test", document.getId() + " => " + document.getData());
-                                String acceptances = document.get("accept").toString();
-                                Log.d(document.getId(), acceptances);
-                                addMatchButtons(document.getId(), acceptances);
+                                ArrayList<Long> acceptances = (ArrayList<Long>) document.get("accept");
+                                // Log.d(document.getId(), acceptances);
+                                addMatchButtons(document.getId(), acceptances, db);
                             }
                         } else {
                             Log.d("test", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-        // TODO: add changes listener
     }
 
-    private void addMatchButtons(String key, String value) {
+    private void addMatchButtons(String invitation_id, ArrayList<Long> acceptances, FirebaseFirestore db) {
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.linearlayout02);
-        String[] strings = value.split(", ");
-        if (strings.length > 0) {
+        if (acceptances.size() > 0) {
             TextView invitation = new TextView(this);
-            invitation.setText("Invitation: " + key);
+            invitation.setText("Invitation: " + invitation_id);
             linearLayout.addView(invitation);
-            for (String string : strings) {
+            for (Long userId : acceptances) {
                 TextView user = new TextView(this);
-                user.setText("user " + string);
+                user.setText("user " + userId);
                 Button button = new Button(this);
                 button.setText("match!");
-                // TODO: add button listener
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (button.getText().toString() == "unmatch") {
+                            button.setText("match!");
+                            // delete user from matched under invitation
+                            DocumentReference ref = db.collection("invitation").document(invitation_id);
+                            ref.update("matched", FieldValue.arrayRemove(userId));
+                        } else if (button.getText().toString() == "match!"){
+                            button.setText("unmatch");
+                            // add user to matched under invitation
+                            DocumentReference ref = db.collection("invitation").document(invitation_id);
+                            ref.update("matched", FieldValue.arrayUnion(userId));
+                        }
+                    }
+                });
                 linearLayout.addView(user);
                 linearLayout.addView(button);
             }
         }
+    }
+
+    private void switchToProfile() {
+        // TODO: create a profile page
+        // Intent intent = new Intent(this, ProfileActivity.class);
+        // startActivity(intent);
+    }
+
+    private void switchToPost() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToAccept() {
+        Intent intent = new Intent(this, Accepted.class);
+        startActivity(intent);
+    }
+
+    private void switchToMatch() {
+        Intent intent = new Intent(this, MatchActivity.class);
+        startActivity(intent);
+    }
+
+    private void switchToLogin() {
+        // TODO: create a login/logout page
+        // Intent intent = new Intent(this, LoginActivity.class);
+        // startActivity(intent);
     }
 }
