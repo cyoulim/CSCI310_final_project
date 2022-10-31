@@ -68,10 +68,8 @@ public class MatchActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Log.d("test", document.getId() + " => " + document.getData());
                                 ArrayList<Long> acceptances = (ArrayList<Long>) document.get("accept");
-                                // Log.d(document.getId(), acceptances);
-                                addMatchButtons(document.getId(), acceptances, db);
+                                addMatchButtons(document.getId(), acceptances, db, document);
                             }
                         } else {
                             Log.d("test", "Error getting documents: ", task.getException());
@@ -80,29 +78,36 @@ public class MatchActivity extends AppCompatActivity {
                 });
     }
 
-    private void addMatchButtons(String invitation_id, ArrayList<Long> acceptances, FirebaseFirestore db) {
+    private void addMatchButtons(String invitationId, ArrayList<Long> acceptances, FirebaseFirestore db, QueryDocumentSnapshot document) {
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.linearlayout02);
         if (acceptances.size() > 0) {
             TextView invitation = new TextView(this);
-            invitation.setText("Invitation: " + invitation_id);
+            invitation.setText("Invitation " + invitationId + " responses");
             linearLayout.addView(invitation);
+
             for (Long userId : acceptances) {
                 TextView user = new TextView(this);
                 user.setText("user " + userId);
+
                 Button button = new Button(this);
-                button.setText("match!");
+                ArrayList<Long> matched = (ArrayList<Long>) document.get("matched");
+                if (matched != null && matched.contains(userId)) {
+                    button.setText("unmatch");
+                } else {
+                    button.setText("match!");
+                }
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (button.getText().toString() == "unmatch") {
                             button.setText("match!");
                             // delete user from matched under invitation
-                            DocumentReference ref = db.collection("invitation").document(invitation_id);
+                            DocumentReference ref = db.collection("invitation").document(invitationId);
                             ref.update("matched", FieldValue.arrayRemove(userId));
                         } else if (button.getText().toString() == "match!"){
                             button.setText("unmatch");
                             // add user to matched under invitation
-                            DocumentReference ref = db.collection("invitation").document(invitation_id);
+                            DocumentReference ref = db.collection("invitation").document(invitationId);
                             ref.update("matched", FieldValue.arrayUnion(userId));
                         }
                     }

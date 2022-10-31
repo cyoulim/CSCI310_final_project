@@ -45,16 +45,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText username_ = findViewById(R.id.username);
                 String username = username_.getText().toString();
+                username_.setText("");
                 EditText bio_ = findViewById(R.id.bio);
                 String bio = bio_.getText().toString();
+                bio_.setText("");
                 EditText ddl_ = findViewById(R.id.deadline);
                 String ddl = ddl_.getText().toString();
+                ddl_.setText("");
                 EditText address_ = findViewById(R.id.address);
                 String address = address_.getText().toString();
+                address_.setText("");
                 EditText u_ = findViewById(R.id.utilities);
                 String u = u_.getText().toString();
+                u_.setText("");
                 EditText rent_ = findViewById(R.id.rent);
                 String rent = rent_.getText().toString();
+                rent_.setText("");
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("invitation")
                         .get()
