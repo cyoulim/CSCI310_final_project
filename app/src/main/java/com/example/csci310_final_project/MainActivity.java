@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     FirebaseDatabase root;
     private DatabaseReference mDatabase;
+    private String yourUserId;
     int index = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +31,22 @@ public class MainActivity extends AppCompatActivity {
         Button profile_btn = (Button)findViewById(R.id.button01);
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToProfile(); }
+            public void onClick(View view) { switchToProfile(yourUserId); }
         });
         Button post_btn = (Button)findViewById(R.id.button02);
         post_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToPost(); }
+            public void onClick(View view) { switchToPost(yourUserId); }
         });
         Button accept_btn = (Button)findViewById(R.id.button03);
         accept_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToAccept(); }
+            public void onClick(View view) { switchToAccept(yourUserId); }
         });
         Button match_btn = (Button)findViewById(R.id.button04);
         match_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToMatch(); }
+            public void onClick(View view) { switchToMatch(yourUserId); }
         });
         Button logout_btn = (Button)findViewById(R.id.logout_Button);
         logout_btn.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +96,15 @@ public class MainActivity extends AppCompatActivity {
 
     public class Invitation {
         public int id;
+        public String userId;
         public String username;
         public String bio;
         public String deadline;
         public String address;
         public String utilities;
         public String rent;
-        public ArrayList<Integer> accept = new ArrayList<>();
-        public ArrayList<Integer> reject = new ArrayList<>();
+        public ArrayList<String> accept = new ArrayList<>();
+        public ArrayList<String> reject = new ArrayList<>();
 
         public Invitation() {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         public Invitation(int id, String username, String bio, String deadline,
                          String address, String utilities, String rent) {
             this.id = id;
+            this.userId = yourUserId;
             this.accept = new ArrayList<>();
             this.reject = new ArrayList<>();
             this.username = username;
@@ -120,31 +123,35 @@ public class MainActivity extends AppCompatActivity {
             this.utilities = utilities;
             this.rent = rent;
         }
-        public void update_accept(int userId){
+        public void update_accept(String userId){
             accept.add(userId);
         }
-        public void update_reject(int userId){
+        public void update_reject(String userId){
             reject.add(userId);
         }
     }
 
-    private void switchToProfile() {
+    private void switchToProfile(String yourUserId) {
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
-    private void switchToPost() {
+    private void switchToPost(String yourUserId) {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
-    private void switchToAccept() {
+    private void switchToAccept(String yourUserId) {
         Intent intent = new Intent(this, Accepted.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
-    private void switchToMatch() {
+    private void switchToMatch(String yourUserId) {
         Intent intent = new Intent(this, MatchActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 

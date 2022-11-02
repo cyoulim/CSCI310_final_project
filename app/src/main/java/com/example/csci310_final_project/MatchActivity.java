@@ -23,33 +23,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MatchActivity extends AppCompatActivity {
+    private String yourUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
-
+        yourUserId = getIntent().getStringExtra("yourUserId");
         init();
     }
     private void init(){
         Button profile_btn = (Button)findViewById(R.id.button01);
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToProfile(); }
+            public void onClick(View view) { switchToProfile(yourUserId); }
         });
         Button post_btn = (Button)findViewById(R.id.button02);
         post_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToPost(); }
+            public void onClick(View view) { switchToPost(yourUserId); }
         });
         Button accept_btn = (Button)findViewById(R.id.button03);
         accept_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToAccept(); }
+            public void onClick(View view) { switchToAccept(yourUserId); }
         });
         Button match_btn = (Button)findViewById(R.id.button04);
         match_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { switchToMatch(); }
+            public void onClick(View view) { switchToMatch(yourUserId); }
         });
         Button logout_btn = (Button)findViewById(R.id.logout_Button);
         logout_btn.setOnClickListener(new View.OnClickListener() {
@@ -59,16 +61,17 @@ public class MatchActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String userName = "Winnie"; //TODO: change to userId of current user
+        Log.d("yourUserId", yourUserId);
+
         db.collection("invitation")
-                .whereEqualTo("username", userName)
+                .whereEqualTo("userId", yourUserId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                ArrayList<Long> acceptances = (ArrayList<Long>) document.get("accept");
+                                ArrayList<String> acceptances = (ArrayList<String>) document.get("accept");
                                 addMatchButtons(document.getId(), acceptances, db, document);
                             }
                         } else {
@@ -78,19 +81,19 @@ public class MatchActivity extends AppCompatActivity {
                 });
     }
 
-    private void addMatchButtons(String invitationId, ArrayList<Long> acceptances, FirebaseFirestore db, QueryDocumentSnapshot document) {
+    private void addMatchButtons(String invitationId, ArrayList<String> acceptances, FirebaseFirestore db, QueryDocumentSnapshot document) {
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.linearlayout02);
         if (acceptances.size() > 0) {
             TextView invitation = new TextView(this);
             invitation.setText("Invitation " + invitationId + " responses");
             linearLayout.addView(invitation);
 
-            for (Long userId : acceptances) {
+            for (String userId : acceptances) {
                 TextView user = new TextView(this);
-                user.setText("user " + userId);
+                user.setText("user " + userId); //TODO: change into userName insead of userId
 
                 Button button = new Button(this);
-                ArrayList<Long> matched = (ArrayList<Long>) document.get("matched");
+                ArrayList<String> matched = (ArrayList<String>) document.get("matched");
                 if (matched != null && matched.contains(userId)) {
                     button.setText("unmatch");
                 } else {
@@ -118,28 +121,32 @@ public class MatchActivity extends AppCompatActivity {
         }
     }
 
-    private void switchToProfile() {
-         Intent intent = new Intent(this, ProfileActivity.class);
-         startActivity(intent);
+    private void switchToProfile(String yourUserId) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
+        startActivity(intent);
     }
 
-    private void switchToPost() {
+    private void switchToPost(String yourUserId) {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
-    private void switchToAccept() {
+    private void switchToAccept(String yourUserId) {
         Intent intent = new Intent(this, Accepted.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
-    private void switchToMatch() {
+    private void switchToMatch(String yourUserId) {
         Intent intent = new Intent(this, MatchActivity.class);
+        intent.putExtra("yourUserId", yourUserId);
         startActivity(intent);
     }
 
     private void switchToLogin() {
          Intent intent = new Intent(this, LoginActivity.class);
-         startActivity(intent);
+        startActivity(intent);
     }
 }
