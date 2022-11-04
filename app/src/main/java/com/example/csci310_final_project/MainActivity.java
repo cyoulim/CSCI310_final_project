@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        yourUserId = getIntent().getStringExtra("yourUserId");
         init();
     }
     private void init(){
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                 Invitation invite = new Invitation(counter, username, bio, ddl, address, u, rent);
                                 CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("invitation");
                                 collectionReference.document(String.valueOf(counter)).set(invite);
+                                // collectionReference.document(String.valueOf(counter)).update("userId", yourUserId);
 
                             } else {
                                 Log.d("test", "Error getting documents: ", task.getException());

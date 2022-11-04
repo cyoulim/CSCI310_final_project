@@ -61,6 +61,7 @@ public class Accepted extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("invitation")
+                .whereNotEqualTo("userId", yourUserId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -116,7 +117,6 @@ public class Accepted extends AppCompatActivity {
                                     }
                                 });
 
-                                // TODO: reject vs accept??
                                 Button btn_reject = (Button) layout.findViewById(R.id.buttonReject);
                                 btn_reject.setOnClickListener(new View.OnClickListener(){
                                     @Override

@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("test", "incorrect password");
                                     loginDenied();
                                 } else {
+                                    Log.d("id", document.getId());
                                     switchToProfile(document.getId());
                                 }
                             }

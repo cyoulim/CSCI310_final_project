@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -90,7 +91,13 @@ public class MatchActivity extends AppCompatActivity {
 
             for (String userId : acceptances) {
                 TextView user = new TextView(this);
-                user.setText("user " + userId); //TODO: change into userName insead of userId
+                if (document.get("username") == null) {
+                    user.setText("user: " + yourUserId);
+                } else {
+                    user.setText("user: " + document.get("username"));
+                }
+                TextView bio = new TextView(this);
+                bio.setText("bio: " + document.get("bio").toString());
 
                 Button button = new Button(this);
                 ArrayList<String> matched = (ArrayList<String>) document.get("matched");
@@ -116,6 +123,7 @@ public class MatchActivity extends AppCompatActivity {
                     }
                 });
                 linearLayout.addView(user);
+                linearLayout.addView(bio);
                 linearLayout.addView(button);
             }
         }
