@@ -80,6 +80,23 @@ public class MatchActivity extends AppCompatActivity {
                         }
                     }
                 });
+        db.collection("invitation")
+                .whereArrayContains("matched", yourUserId)
+                // .whereNotEqualTo("userId", yourUserId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                addInvitationsMatched(document);
+                            }
+                        } else {
+                            Log.d("test", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
     }
 
     private void addMatchButtons(String invitationId, ArrayList<String> acceptances, FirebaseFirestore db, QueryDocumentSnapshot document) {
@@ -127,6 +144,29 @@ public class MatchActivity extends AppCompatActivity {
                 linearLayout.addView(button);
             }
         }
+    }
+
+    private void addInvitationsMatched(QueryDocumentSnapshot document) {
+        if (document.get("userId").toString().equals(yourUserId)) {
+            Log.d("my own posts ", document.getId());
+            return;
+        }
+        TextView invitationId = new TextView(this);
+        invitationId.setText("You are matched with invitation " + document.getId());
+        TextView inviter = new TextView(this);
+        inviter.setText("inviter: " + document.get("userId"));
+        TextView address = new TextView(this);
+        address.setText("address: " + document.get("address"));
+        TextView rent = new TextView(this);
+        rent.setText("rent: " + document.get("rent"));
+        TextView utilities = new TextView(this);
+        utilities.setText("utilities: " + document.get("utilities"));
+        LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.linearlayout02);
+        linearLayout.addView(invitationId);
+        linearLayout.addView(inviter);
+        linearLayout.addView(address);
+        linearLayout.addView(rent);
+        linearLayout.addView(utilities);
     }
 
     private void switchToProfile(String yourUserId) {
