@@ -89,7 +89,7 @@ public class MatchActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                addInvitationsMatched(document);
+                                addInvitationsMatched(db, document);
                             }
                         } else {
                             Log.d("test", "Error getting documents: ", task.getException());
@@ -146,7 +146,7 @@ public class MatchActivity extends AppCompatActivity {
         }
     }
 
-    private void addInvitationsMatched(QueryDocumentSnapshot document) {
+    private void addInvitationsMatched(FirebaseFirestore db, QueryDocumentSnapshot document) {
         if (document.get("userId").toString().equals(yourUserId)) {
             Log.d("my own posts ", document.getId());
             return;
@@ -154,7 +154,25 @@ public class MatchActivity extends AppCompatActivity {
         TextView invitationId = new TextView(this);
         invitationId.setText("You are matched with invitation " + document.getId());
         TextView inviter = new TextView(this);
-        inviter.setText("inviter: " + document.get("userId"));
+
+        db.collection("user")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.getId().equals(document.get("userId"))) {
+                                    inviter.setText("inviter: " + doc.get("email"));
+                                }
+                            }
+                        } else {
+                            Log.d("test", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
         TextView address = new TextView(this);
         address.setText("address: " + document.get("address"));
         TextView rent = new TextView(this);
