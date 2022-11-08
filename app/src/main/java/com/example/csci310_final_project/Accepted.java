@@ -36,6 +36,36 @@ public class Accepted extends AppCompatActivity {
         init();
     }
     private void init(){
+        Button sort_by_rent = new Button(this);
+        sort_by_rent.setText("sort by descending rent");
+        Button sort_by_utilities = new Button(this);
+        sort_by_utilities.setText("sort by descending utilities");
+
+        LinearLayout container = (LinearLayout) findViewById(R.id.linearlayout02);
+        container.addView(sort_by_rent);
+        sort_by_rent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                container.removeAllViews();
+                container.addView(sort_by_rent);
+                container.addView(sort_by_utilities);
+                sortByRent(arr);
+                defaultDisplay(arr);
+            }
+        });
+
+        container.addView(sort_by_utilities);
+        sort_by_utilities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                container.removeAllViews();
+                container.addView(sort_by_rent);
+                container.addView(sort_by_utilities);
+                sortByUtilities(arr);
+                defaultDisplay(arr);
+            }
+        });
+
         Button profile_btn = (Button)findViewById(R.id.button01);
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +109,7 @@ public class Accepted extends AppCompatActivity {
                                 String rent = document.getData().get("rent").toString();
                                 String address = document.getData().get("address").toString();
                                 String utilities = document.getData().get("utilities").toString();
-                                UserInfo user = new UserInfo(id, username, bio, deadline, rent, address, utilities);
+                                UserInfo user = new UserInfo(id, username, bio, deadline, address, utilities, rent);
                                 arr.add(user);
                                 Log.d("size", arr.size() + " ");
                                 count ++;
