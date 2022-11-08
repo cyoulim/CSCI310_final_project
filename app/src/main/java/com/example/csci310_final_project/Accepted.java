@@ -23,8 +23,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.*;
 public class Accepted extends AppCompatActivity {
     private String yourUserId;
+    List<UserInfo> arr = new ArrayList<>();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +61,7 @@ public class Accepted extends AppCompatActivity {
             @Override
             public void onClick(View view) { switchToLogin(); }
         });
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // arr.clear();
         db.collection("invitation")
                 .whereNotEqualTo("userId", yourUserId)
                 .get()
@@ -67,77 +69,81 @@ public class Accepted extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            int count = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //View view= LayoutInflater.from(getContext()).inflate(R.layout.post_layout,null);
-                                LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_layout, null);
-                                TextView username_field = (TextView) layout.findViewById(R.id.username);
-                                if(username_field == null) Log.d("test","error.....");
-                                Object username_ = document.getData().get("username");
-                                if(username_ == null) continue;
-                                String username = username_.toString();
-                                username_field.setText(username);
-
-                                TextView bio_field = (TextView) layout.findViewById(R.id.bio);
-                                Object bio_ = document.getData().get("bio");
-                                if(bio_ == null) continue;
-                                String bio = bio_.toString();
-                                bio_field.setText(bio);
-
-                                TextView deadline_field = (TextView) layout.findViewById(R.id.deadline);
-                                Object deadline_ = document.getData().get("deadline");
-                                if(deadline_ == null) continue;
-                                String deadline = deadline_.toString();
-                                deadline_field.setText(deadline);
-
-                                TextView rent_field = (TextView) layout.findViewById(R.id.rent);
-                                Object rent_ = document.getData().get("rent");
-                                if(rent_ == null) continue;
-                                String rent = rent_.toString();
-                                rent_field.setText(rent);
-
-                                TextView address_field = (TextView) layout.findViewById(R.id.address);
-                                Object address_ = document.getData().get("address");
-                                if(address_ == null) continue;
-                                String address = address_.toString();
-                                address_field.setText(address);
-
-                                TextView utilities_field = (TextView) layout.findViewById(R.id.utilities);
-                                Object utilities_ = document.getData().get("utilities");
-                                if(utilities_ == null) continue;
-                                String utilities = utilities_.toString();
-                                utilities_field.setText(utilities);
-
-                                Button btn_accept = (Button) layout.findViewById(R.id.buttonAccept);
-                                btn_accept.setOnClickListener(new View.OnClickListener(){
-                                    @Override
-                                    public void onClick(View view) {
-                                        String id = document.getData().get("id").toString();
-                                        DocumentReference ref = db.collection("invitation").document(id);
-                                        ref.update("accept", FieldValue.arrayUnion(yourUserId));
-                                    }
-                                });
-
-                                Button btn_reject = (Button) layout.findViewById(R.id.buttonReject);
-                                btn_reject.setOnClickListener(new View.OnClickListener(){
-                                    @Override
-                                    public void onClick(View view) {
-                                        String id = document.getData().get("id").toString();
-                                        DocumentReference ref = db.collection("invitation").document(id);
-                                        ref.update("reject", FieldValue.arrayUnion(yourUserId));
-                                    }
-                                });
-
-                                LinearLayout container = (LinearLayout) findViewById(R.id.linearlayout02);
-                                container.addView(layout);
-                                //Log.d("test", document.getId() + " => " + document.getData().get("username"));
+                                Log.d("test", "this for loop?");
+                                String id = document.getData().get("id").toString();
+                                String username = document.getData().get("username").toString();
+                                String bio = document.getData().get("bio").toString();
+                                String deadline = document.getData().get("deadline").toString();
+                                String rent = document.getData().get("rent").toString();
+                                String address = document.getData().get("address").toString();
+                                String utilities = document.getData().get("utilities").toString();
+                                UserInfo user = new UserInfo(id, username, bio, deadline, rent, address, utilities);
+                                arr.add(user);
+                                Log.d("size", arr.size() + " ");
+                                count ++;
+                                if (count == task.getResult().size()) {
+                                    defaultDisplay(arr);
+                                }
                             }
                         } else {
                             Log.d("test", "Error getting documents: ", task.getException());
                         }
                     }
                 });
+        Log.d("size", arr.size() + " ");
     }
+    private void defaultDisplay(List<UserInfo> arr){
+        for(UserInfo user: arr){
+            LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.post_layout, null);
+            String id = user.id;
 
+            TextView username_field = (TextView) layout.findViewById(R.id.username);
+            username_field.setText(user.username);
+
+            TextView bio_field = (TextView) layout.findViewById(R.id.bio);
+            bio_field.setText(user.bio);
+
+            TextView deadline_field = (TextView) layout.findViewById(R.id.deadline);
+            deadline_field.setText(user.deadline);
+
+            TextView rent_field = (TextView) layout.findViewById(R.id.rent);
+            rent_field.setText(user.rent);
+
+            TextView address_field = (TextView) layout.findViewById(R.id.address);
+            address_field.setText(user.address);
+
+            TextView utilities_field = (TextView) layout.findViewById(R.id.utilities);
+            utilities_field.setText(user.utilities);
+
+            Button btn_accept = (Button) layout.findViewById(R.id.buttonAccept);
+            btn_accept.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    DocumentReference ref = db.collection("invitation").document(id);
+                    ref.update("accept", FieldValue.arrayUnion(yourUserId));
+                }
+            });
+            Button btn_reject = (Button) layout.findViewById(R.id.buttonReject);
+            btn_reject.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    DocumentReference ref = db.collection("invitation").document(id);
+                    ref.update("reject", FieldValue.arrayUnion(yourUserId));
+                }
+            });
+            LinearLayout container = (LinearLayout) findViewById(R.id.linearlayout02);
+            container.addView(layout);
+
+        }
+    }
+    private void sortByRent(List<UserInfo> arr){
+        Collections.sort(arr, (a, b)->(Integer.valueOf(b.rent) - Integer.valueOf(a.rent)));
+    }
+    private void sortByUtilities(List<UserInfo> arr){
+        Collections.sort(arr, (a,b)->(Integer.valueOf(b.utilities) - Integer.valueOf(a.utilities)));
+    }
     private void switchToProfile(String yourUserId) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("yourUserId", yourUserId);
@@ -165,5 +171,30 @@ public class Accepted extends AppCompatActivity {
     private void switchToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+    public class UserInfo {
+        public String id;
+        public String username;
+        public String bio;
+        public String deadline;
+        public String address;
+        public String utilities;
+        public String rent;
+        public ArrayList<String> accept = new ArrayList<>();
+        public ArrayList<String> reject = new ArrayList<>();
+
+        public UserInfo() {
+        }
+
+        public UserInfo(String id, String username, String bio, String deadline,
+                        String address, String utilities, String rent) {
+            this.id = id;
+            this.username = username;
+            this.bio = bio;
+            this.deadline = deadline;
+            this.address = address;
+            this.utilities = utilities;
+            this.rent = rent;
+        }
     }
 }
