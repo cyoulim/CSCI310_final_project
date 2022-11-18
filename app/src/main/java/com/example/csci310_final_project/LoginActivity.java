@@ -14,19 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         init();
     }
 
@@ -37,6 +33,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText email = (EditText) findViewById(R.id.email);
                 EditText password = (EditText) findViewById(R.id.password);
+                loginValidator validator = new loginValidator();
+                if(!validator.email_checker(email.getText().toString())){
+                    Log.d("test", "invalid email");
+                    loginDenied();
+                    return;
+                }
+                if(!validator.password_checker(password.getText().toString())){
+                    Log.d("test", "invalid password");
+                    loginDenied();
+                    return;
+                }
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("user")
                         .whereEqualTo("email", email.getText().toString())
@@ -75,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) { switchToRegister(); }
         });
     }
-
     private void loginDenied() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_login);
         EditText email = (EditText) findViewById(R.id.email);
