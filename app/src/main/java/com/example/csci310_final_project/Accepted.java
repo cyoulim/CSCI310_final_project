@@ -46,10 +46,11 @@ public class Accepted extends AppCompatActivity {
         sort_by_rent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sortValidator checker = new sortValidator();
                 container.removeAllViews();
                 container.addView(sort_by_rent);
                 container.addView(sort_by_utilities);
-                sortByRent(arr);
+                checker.sortByRent(arr);
                 defaultDisplay(arr);
             }
         });
@@ -58,10 +59,11 @@ public class Accepted extends AppCompatActivity {
         sort_by_utilities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sortValidator checker = new sortValidator();
                 container.removeAllViews();
                 container.addView(sort_by_rent);
                 container.addView(sort_by_utilities);
-                sortByUtilities(arr);
+                checker.sortByUtilities(arr);
                 defaultDisplay(arr);
             }
         });
@@ -168,12 +170,6 @@ public class Accepted extends AppCompatActivity {
 
         }
     }
-    private void sortByRent(List<UserInfo> arr){
-        Collections.sort(arr, (a, b)->(Integer.valueOf(b.rent) - Integer.valueOf(a.rent)));
-    }
-    private void sortByUtilities(List<UserInfo> arr){
-        Collections.sort(arr, (a,b)->(Integer.valueOf(b.utilities) - Integer.valueOf(a.utilities)));
-    }
     private void switchToProfile(String yourUserId) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("yourUserId", yourUserId);
@@ -202,7 +198,7 @@ public class Accepted extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-    public class UserInfo {
+    public static class UserInfo {
         public String id;
         public String username;
         public String bio;
