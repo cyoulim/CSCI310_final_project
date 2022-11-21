@@ -10,7 +10,7 @@ public class unitTest14 {
         tester = new postValidator();
     }
     @Test
-    public void testsIsValidName() {
+    public void testsIsValidRent() {
         assertEquals("basic test 01", false, tester.isValidUt(null));
         assertEquals("basic test 02", false, tester.isValidUt("test"));
         assertEquals("basic test 03", true, tester.isValidUt("123"));
