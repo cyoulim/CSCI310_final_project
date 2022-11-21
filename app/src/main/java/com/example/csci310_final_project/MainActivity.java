@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 EditText rent_ = findViewById(R.id.rent);
                 String rent = rent_.getText().toString();
                 rent_.setText("");
+                postValidator checker = new postValidator();
+                if(!checker.isValidName(username) || !checker.isValidBio(bio) || !checker.isValidDdl(ddl) ||
+                !checker.isValidAddress(address) || !checker.isValidRent(rent) || !checker.isValidUt(u)) return;
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("invitation")
                         .get()
