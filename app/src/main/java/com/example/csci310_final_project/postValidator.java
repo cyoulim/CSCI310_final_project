@@ -37,7 +37,7 @@ public class postValidator {
     }
     boolean isValidRangeUt(String ut){
         int ut_ = Integer.valueOf(ut);
-        if(ut_ > 100000){
+        if(ut_ <= 0){
             return false;
         }
         return true;
