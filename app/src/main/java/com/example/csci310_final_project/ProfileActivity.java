@@ -64,6 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
         EditText image = (EditText) findViewById(R.id.image);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        profileValidator checker = new profileValidator();
+        if(!checker.isValidName(username.getText().toString())
+                || !checker.isValidBio(bio.getText().toString())
+                || !checker.isValidImg(image.getText().toString())) return;
+
         DocumentReference docRef = db.collection("user").document(yourUserId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -72,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("test", "DocumentSnapshot data: " + document.getData());
+
                         if (document.get("username") != null) {
                             username.setText(document.get("username").toString());
                         }

@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { switchToLogin(); }
         });
+
         Button signup_btn = (Button)findViewById(R.id.buttonSignup);
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         data.put("email", email.getText().toString());
                                         data.put("password", password.getText().toString());
 
-                                        loginValidator validator = new loginValidator();
+                                        registerValidator validator = new registerValidator();
                                         if(!validator.email_checker(email.getText().toString())){
                                             Log.d("test", "invalid email");
                                             registerDeniedEmailFormat();
