@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    public boolean emailAlreadyExists = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
                 EditText email = (EditText) findViewById(R.id.email);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("user")
                         .whereEqualTo("email", email.getText().toString())
                         .get()
@@ -56,12 +57,25 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Log.d("size", task.getResult().size() + " ");
                                     if (task.getResult().size() >= 1) {
-                                        emailExists();
+                                        emailAlreadyExists = true;
+                                        registerDenied();
                                     } else {
                                         EditText password = (EditText) findViewById(R.id.password);
                                         Map<String, String> data = new HashMap<>();
                                         data.put("email", email.getText().toString());
                                         data.put("password", password.getText().toString());
+
+                                        loginValidator validator = new loginValidator();
+                                        if(!validator.email_checker(email.getText().toString())){
+                                            Log.d("test", "invalid email");
+                                            registerDeniedEmailFormat();
+                                            return;
+                                        }
+                                        if(!validator.password_checker(password.getText().toString())){
+                                            Log.d("test", "invalid password");
+                                            registerDeniedPasswordFormat();
+                                            return;
+                                        }
 
                                         db.collection("user")
                                                 .add(data)
@@ -78,17 +92,19 @@ public class RegisterActivity extends AppCompatActivity {
                                                         Log.w("error", "Error adding document", e);
                                                     }
                                                 });
+
                                     }
                                 } else {
                                     Log.d("test", "Error getting documents: ", task.getException());
                                 }
                             }
                         });
-            }
+                }
         });
+
     }
 
-    private void emailExists() {
+    private void registerDenied() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_register);
         EditText email = (EditText) findViewById(R.id.email);
         EditText password = (EditText) findViewById(R.id.password);
@@ -96,6 +112,28 @@ public class RegisterActivity extends AppCompatActivity {
         password.setText("");
         TextView register_error = new TextView (this);
         register_error.setText("existing profile with email " + email.getText().toString());
+        linearLayout.addView(register_error);
+    }
+
+    private void registerDeniedEmailFormat() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_register);
+        EditText email = (EditText) findViewById(R.id.email);
+        EditText password = (EditText) findViewById(R.id.password);
+        email.setText("");
+        password.setText("");
+        TextView register_error = new TextView (this);
+        register_error.setText("email format incorrect");
+        linearLayout.addView(register_error);
+    }
+
+    private void registerDeniedPasswordFormat() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_register);
+        EditText email = (EditText) findViewById(R.id.email);
+        EditText password = (EditText) findViewById(R.id.password);
+        email.setText("");
+        password.setText("");
+        TextView register_error = new TextView (this);
+        register_error.setText("password length less than 5 characters");
         linearLayout.addView(register_error);
     }
 
