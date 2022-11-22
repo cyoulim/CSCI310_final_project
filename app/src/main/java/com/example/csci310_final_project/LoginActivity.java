@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.getResult().size() <= 0) {
                                 Log.d("test", "no such email");
                                 loginDenied();
+                                return;
                             }
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 // Log.d("test", document.getId() + " => " + document.getData());
@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!pass.equals(password.getText().toString())) {
                                     Log.d("test", "incorrect password");
                                     loginDenied();
+                                    return;
                                 } else {
                                     Log.d("id", document.getId());
                                     switchToProfile(document.getId());
@@ -83,14 +84,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void loginDenied() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_login);
+//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_login);
         EditText email = (EditText) findViewById(R.id.email);
         EditText password = (EditText) findViewById(R.id.password);
         email.setText("");
         password.setText("");
-        TextView login_error = new TextView (this);
-        login_error.setText("incorrect email or password");
-        linearLayout.addView(login_error);
+//        TextView login_error = new TextView (this);
+//        login_error.setText("incorrect email or password");
+//        linearLayout.addView(login_error);
+        TextView error = (TextView) findViewById(R.id.errorMsg);
+        error.setText("incorrect email or password");
     }
 
     private void switchToProfile(String yourUserId) {

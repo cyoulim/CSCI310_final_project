@@ -24,6 +24,10 @@ import java.util.ArrayList;
 public class ProfileActivity extends AppCompatActivity {
     private String yourUserId;
 
+    public void setYourUserId(String yourUserId) {
+        this.yourUserId = yourUserId;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

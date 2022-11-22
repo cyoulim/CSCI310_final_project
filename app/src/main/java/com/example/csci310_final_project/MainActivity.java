@@ -1,5 +1,6 @@
 package com.example.csci310_final_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,11 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -20,12 +26,17 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase root;
     private DatabaseReference mDatabase;
     private String yourUserId;
+    private String userEmail;
     int index = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         yourUserId = getIntent().getStringExtra("yourUserId");
+        setTag(yourUserId);
+        TextView tagView = (TextView)findViewById(R.id.tag);
+        //tagView.setText("Welcome " + doc.get("email") + " !");
+        if(userEmail == null) tagView.setText("Welcome");
         init();
     }
     private void init(){
@@ -134,6 +145,28 @@ public class MainActivity extends AppCompatActivity {
         public void update_reject(String userId){
             reject.add(userId);
         }
+    }
+    private void setTag(String userId){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("user")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                if (doc.getId().equals(userId)) {
+                                    userEmail = doc.get("email").toString();
+                                    TextView tagView = (TextView)findViewById(R.id.tag);
+                                    tagView.setText("Welcome " + doc.get("email") + " !");
+                                    //tagView.setText("Welcome");
+                                }
+                            }
+                        } else {
+                            Log.d("test", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void switchToProfile(String yourUserId) {
