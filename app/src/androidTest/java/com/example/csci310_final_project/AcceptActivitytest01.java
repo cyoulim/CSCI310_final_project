@@ -4,7 +4,7 @@ import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.*;
 
-public class unitTest04 {
+public class AcceptActivitytest01 {
     private sortValidator tester;
     @Before
     public void setup(){
@@ -22,9 +22,9 @@ public class unitTest04 {
         input.add(user2);
         input.add(user3);
         List<Accepted.UserInfo> expected = new ArrayList<>();
-        expected.add(user2);
         expected.add(user3);
         expected.add(user1);
-        assertEquals("basic test" + input, expected, tester.sortByUtilities(input));
+        expected.add(user2);
+        assertEquals("basic test" + input, expected, tester.sortByRent(input));
     }
 }
