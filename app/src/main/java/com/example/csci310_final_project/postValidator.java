@@ -42,4 +42,12 @@ public class postValidator {
         }
         return true;
     }
+
+    boolean isValidRange_rent(String rent){
+        int rent_ = Integer.valueOf(rent);
+        if(rent_ <= 0){
+            return false;
+        }
+        return true;
+    }
 }
