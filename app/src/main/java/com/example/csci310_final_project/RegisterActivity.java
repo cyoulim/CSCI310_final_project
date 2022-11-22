@@ -111,9 +111,8 @@ public class RegisterActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         email.setText("");
         password.setText("");
-        TextView register_error = new TextView (this);
-        register_error.setText("existing profile with email " + email.getText().toString());
-        linearLayout.addView(register_error);
+        TextView register_error = (TextView) findViewById(R.id.errorMsg);
+        register_error.setText("existing profile with email");
     }
 
     private void registerDeniedEmailFormat() {
@@ -122,9 +121,8 @@ public class RegisterActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         email.setText("");
         password.setText("");
-        TextView register_error = new TextView (this);
+        TextView register_error = (TextView) findViewById(R.id.errorMsg);
         register_error.setText("email format incorrect");
-        linearLayout.addView(register_error);
     }
 
     private void registerDeniedPasswordFormat() {
@@ -133,9 +131,9 @@ public class RegisterActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         email.setText("");
         password.setText("");
-        TextView register_error = new TextView (this);
+        TextView register_error = (TextView) findViewById(R.id.errorMsg);
         register_error.setText("password length less than 5 characters");
-        linearLayout.addView(register_error);
+
     }
 
     private void switchToLogin() {
