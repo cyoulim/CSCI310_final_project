@@ -88,16 +88,22 @@ public class MainActivity extends AppCompatActivity {
                 EditText rent_ = findViewById(R.id.rent);
                 String rent = rent_.getText().toString();
                 rent_.setText("");
+                EditText roommates_ = findViewById(R.id.roommates);
+                String roommates = roommates_.getText().toString();
+                roommates_.setText("");
+
                 postValidator checker = new postValidator();
-                if(!checker.isValidName(username) || !checker.isValidBio(bio) || !checker.isValidDdl(ddl) ||
-                !checker.isValidAddress(address) || !checker.isValidRent(rent) || !checker.isValidUt(u)) return;
+                if(!checker.isValidName(username) || !checker.isValidBio(bio) ||
+                        !checker.isValidDdl(ddl) || !checker.isValidAddress(address) ||
+                        !checker.isValidRent(rent) || !checker.isValidUt(u) ||
+                        !checker.isValidRoommates(roommates)) return;
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("invitation")
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 int counter = task.getResult().size();
-                                Invitation invite = new Invitation(counter, username, bio, ddl, address, u, rent);
+                                Invitation invite = new Invitation(counter, username, bio, ddl, address, u, rent, roommates);
                                 CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("invitation");
                                 collectionReference.document(String.valueOf(counter)).set(invite);
                                 // collectionReference.document(String.valueOf(counter)).update("userId", yourUserId);
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         public String address;
         public String utilities;
         public String rent;
+        public String roommates;
         public ArrayList<String> accept = new ArrayList<>();
         public ArrayList<String> reject = new ArrayList<>();
 
@@ -127,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public Invitation(int id, String username, String bio, String deadline,
-                         String address, String utilities, String rent) {
+                         String address, String utilities, String rent, String roommates) {
             this.id = id;
             this.userId = yourUserId;
             this.accept = new ArrayList<>();
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             this.address = address;
             this.utilities = utilities;
             this.rent = rent;
+            this.roommates = roommates;
         }
         public void update_accept(String userId){
             accept.add(userId);

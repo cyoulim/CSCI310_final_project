@@ -154,6 +154,19 @@
                 android:inputType="textPersonName"
                 android:text="" />
 
+            <TextView android:id="@+id/text7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:text="Number of Roommates Looking For:" />
+            <EditText
+                android:id="@+id/roommates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="" />
+
 
             <Button
                 android:id="@+id/buttonPost"

@@ -50,4 +50,12 @@ public class postValidator {
         }
         return true;
     }
+
+    boolean isValidRoommates(String roommates) {
+        int roommates_ = Integer.valueOf(roommates);
+        if(roommates_ <= 0){
+            return false;
+        }
+        return true;
+    }
 }

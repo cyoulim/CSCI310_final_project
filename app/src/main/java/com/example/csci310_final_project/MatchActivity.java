@@ -118,8 +118,11 @@ public class MatchActivity extends AppCompatActivity {
 
                 Button button = new Button(this);
                 ArrayList<String> matched = (ArrayList<String>) document.get("matched");
+                int roommates = Integer.parseInt(document.get("roommates").toString());
                 if (matched != null && matched.contains(userId)) {
                     button.setText("unmatch");
+                } else if (matched != null && matched.size() >= roommates) {
+                        button.setText("invitation full, cannot match!");
                 } else {
                     button.setText("match!");
                 }
@@ -136,6 +139,8 @@ public class MatchActivity extends AppCompatActivity {
                             // add user to matched under invitation
                             DocumentReference ref = db.collection("invitation").document(invitationId);
                             ref.update("matched", FieldValue.arrayUnion(userId));
+                        } else if (button.getText().toString() == "invitation full, cannot match!") {
+
                         }
                     }
                 });
